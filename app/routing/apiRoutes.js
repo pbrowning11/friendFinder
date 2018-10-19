@@ -17,15 +17,16 @@ module.exports = function (app) {
         res.json(newFriends);
     });
 
-    function bff(pass) {
+    function bff(newF) {
         var score;
         var match = 50
         var matchIndex;
 
         for (var i = 0; i < friends.length; i++) {
             console.log("loop1")
+            score = 0
             for (let s = 0; s < friends[i].scores.length; s++) {
-                score += Math.abs(parseInt(friends[i].scores[s]) - parseInt(pass.scores[s]))
+                score += Math.abs(parseInt(friends[i].scores[s]) - parseInt(newF.scores[s]))
             }
             if (score < match) {
                 match = score
@@ -33,4 +34,5 @@ module.exports = function (app) {
             }
         }
     }
+    // return matchIndex;
 }

@@ -13,8 +13,8 @@
 </head>
 
 <body>
-        <!-- background="../assets/images/question-marks-background.jpg" -->
-        <!-- survContainer text-white -->
+    <!-- background="../assets/images/question-marks-background.jpg" -->
+    <!-- survContainer text-white -->
     <div class="container">
         <h1>SURVEY QUESTIONS</h1>
 
@@ -160,10 +160,21 @@
         <a href="/home">Main Page</a>
         <a href="/api/friends">API Friends</a>
 
+        <div class="modal text-dark" id="friendModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">YOUR BEST FRIEND IS: </h5>
+                    </div>
+                    <div class="modal-body"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script type="text/javascript">
-        // Question: What does this code do?
+
         $(".btn").on("click", function (event) {
             event.preventDefault();
             var scoreData = [];
@@ -177,10 +188,12 @@
                 scores: scoreData
             };
 
-            // Question: What does this code do??
             $.post("/api/friends", newFriend)
                 .then(function (data) {
-                    console.log("new friend")
+                    $.get("/api/push/"), function (data) {
+                        $(".modal-body").html("<h2><center>" + data.name + "<br><img src='" + data.photo + "' alt='friend finder' width='200'></center")
+                        $("#friendModal").modal()
+                    }
                 });
         });
     </script>
