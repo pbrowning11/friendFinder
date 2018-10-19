@@ -1,38 +1,16 @@
-var http = require("http");
-var fs = require("fs");
-var path = require("path")
+var express = require("express");
+var path = require("path");
 
-var PORT = 8085;
+var app = express();
+var PORT = process.env.PORT || 3000;
 
-var server = http.createServer(handleRequest);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-function handleRequest(req, res) {
-    var path = req.url;
+require("./app/routing/apiRoutes")(app);
+require("./app/routing/htmlRoutes")(app);
 
-    switch (path) {
-
-        case "/":
-            return home(res);
-        case "/survey":
-            return survey(res)
-        default:
-            return home(res);
-    }
-}
-
-server.listen(PORT, function () {
-    console.log("Server is listening on PORT: " + PORT);
+app.listen(PORT, function () {
+    console.log("App listening on PORT " + PORT);
 });
 
-function survey(res) {
-    fs.readFile(__dirname + "/public/survey.html", function (err, data) {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(data);
-    });
-}
-function home(res) {
-    fs.readFile(__dirname + "/public/home.html", function (err, data) {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(data);
-    });
-}
